@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.spake.invent.R;
 
 public class NotificationsFragment extends Fragment {
-
     private NotificationsViewModel notificationsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
