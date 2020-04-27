@@ -1,4 +1,4 @@
-package com.spake.invent.ui.home;
+package com.spake.invent.ui.bags;
 
 import android.app.Application;
 
@@ -13,23 +13,22 @@ import java.util.concurrent.Executors;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends AndroidViewModel {
-
-    private MutableLiveData<String> mText;
+public class BagsViewModel extends AndroidViewModel {
     private ItemDAO itemDao;
     private ExecutorService executorService;
 
-    public HomeViewModel(@NonNull Application application) {
+    public BagsViewModel(@NonNull Application application) {
         super(application);
         itemDao = AppDatabase.getInstance(application).itemDao();
         executorService = Executors.newSingleThreadExecutor();
     }
 
-    LiveData<List<Item>> getAllItems() {
+    public LiveData<List<Item>> getAll() {
         return itemDao.findAll();
     }
 
+    public void remove(Item item) {
+        itemDao.deleteItem(item);
+    }
 }

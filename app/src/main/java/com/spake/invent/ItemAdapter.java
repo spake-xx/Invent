@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.spake.invent.database.entity.Item;
 
-import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -45,11 +44,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     public void setData(List<Item> newData) {
         this.data = newData;
-        for(int i=0; i<5; i++){
-            Item test = new Item("Test", "Testowy opis", new Date());
-            data.add(test);
-        }
+//        for(int i=0; i<5; i++){
+//            Item test = new Item("Test", "Testowy opis", new Date());
+//            data.add(test);
+//        }
         notifyDataSetChanged();
+    }
+
+    public List<Item> getData() {
+        return data;
+    }
+
+    public void removeItem(int position){
+        data.remove(position);
+        notifyItemRemoved(position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
