@@ -31,6 +31,8 @@ public class ItemsViewModel extends AndroidViewModel {
         return itemDao.findAll();
     }
 
+    public LiveData<List<Item>> getByStoragePlace(int storagePlaceId){ return itemDao.findByStoragePlace(storagePlaceId); }
+
     public void remove(Item item) {
         itemDao.deleteItem(item);
     }

@@ -1,4 +1,4 @@
-package com.spake.invent;
+package com.spake.invent.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.spake.invent.R;
 import com.spake.invent.database.entity.Item;
 
 import java.util.List;

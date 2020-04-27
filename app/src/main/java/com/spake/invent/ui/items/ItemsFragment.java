@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.spake.invent.ItemAdapter;
+import com.spake.invent.ui.ItemAdapter;
 import com.spake.invent.R;
 import com.spake.invent.ScannedBarcodeActivity;
 import com.spake.invent.database.entity.Item;
@@ -62,8 +62,5 @@ public class ItemsFragment extends RVFragment {
                 .show();
     }
 
-    @Override
-    public void rightSwipe(int position) {
 
-    }
 }

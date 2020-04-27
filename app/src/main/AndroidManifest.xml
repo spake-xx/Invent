@@ -13,6 +13,7 @@
 <!--            android:name=".MainActivity"-->
 <!--            android:label="@string/title_activity_main2"></activity>-->
         <activity android:name=".NewItemActivity" />
+        <activity android:name=".NewStoragePlaceActivity" />
         <activity
             android:name=".ScannedBarcodeActivity"
             android:label="@string/title_activity_scanned_barcode"

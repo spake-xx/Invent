@@ -17,6 +17,9 @@ public interface ItemDAO {
     @Query("SELECT * FROM item ORDER BY createdAt")
     LiveData<List<Item>> findAll();
 
+    @Query("SELECT * FROM item WHERE storagePlaceId=:storageTypeId")
+    LiveData<List<Item>> findByStoragePlace(final int storageTypeId);
+
     @Insert
     void insertItem(Item item);
 

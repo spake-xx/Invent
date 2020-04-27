@@ -28,6 +28,12 @@ public abstract class RVFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                onRowClick(position);
+            }
+        }));
         btnAdd = view.findViewById(R.id.btnNewItem);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +42,10 @@ public abstract class RVFragment extends Fragment {
             }
         });
         initSwipe();
+    }
+
+    public void onRowClick(int position){
+        Log.i("Clicked row", Integer.toString(position));
     }
 
     public void addNewItem(){};
@@ -70,7 +80,6 @@ public abstract class RVFragment extends Fragment {
                     View itemView = viewHolder.itemView;
                     float height = (float) itemView.getBottom() - (float) itemView.getTop();
                     float width = height / 3;
-
                     if (dX > 0) {
                         p.setColor(Color.parseColor("#388E3C"));
                         RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
@@ -97,7 +106,6 @@ public abstract class RVFragment extends Fragment {
     }
 
     private static Bitmap drawableToBitmap (Drawable drawable) {
-
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable)drawable).getBitmap();
         }
@@ -110,11 +118,15 @@ public abstract class RVFragment extends Fragment {
         return bitmap;
     }
 
-    public void leftSwipe(int position){
 
-    }
-
-    public void rightSwipe(int position){
-
-    }
+    /**
+     * Method called by swiping left that you can bind to your own logic
+     * @param position Recyclerview swiped row position number
+     */
+    public void leftSwipe(int position){}
+    /**
+     * Method called by swiping right that you can bind to your own logic
+     * @param position Recyclerview swiped row position number
+     */
+    public void rightSwipe(int position){}
 }

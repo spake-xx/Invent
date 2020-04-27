@@ -1,33 +1,46 @@
 package com.spake.invent.database.entity;
 
+import com.spake.invent.database.PlaceTypeConverter;
+
 import java.util.Date;
 
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-@Entity(tableName = "item", foreignKeys = @ForeignKey(entity = StoragePlace.class,
-        parentColumns = "id",
-        childColumns = "storagePlaceId" ))
-public class Item {
+@Entity(tableName = "storage_place")
+public class StoragePlace {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String barcode;
     private String name;
     private String description;
     private Date createdAt;
-    public int storagePlaceId;
+    private Type type;
 
 
-    public Item(String barcode, String name, String description, int storagePlaceId) {
-        this.createdAt = new Date();;
-        this.barcode = barcode;
+    public StoragePlace(String name, Type type, String description, Date createdAt) {
         this.name = name;
         this.description = description;
-        this.storagePlaceId = storagePlaceId;
+        this.createdAt = createdAt;
+        this.type = type;
     }
 
+    public enum Type {
+        BAG(0),
+        LOCKER(1),
+        VEHICLE(2);
+
+        private int code;
+
+        Type(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
+    }
 
     public int getId() {
         return id;
@@ -61,11 +74,11 @@ public class Item {
         this.createdAt = createdAt;
     }
 
-    public String getBarcode() {
-        return barcode;
+    public Type getType() {
+        return type;
     }
 
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
+    public void setType(Type type) {
+        this.type = type;
     }
 }
