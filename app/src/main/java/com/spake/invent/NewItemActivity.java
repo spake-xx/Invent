@@ -1,6 +1,7 @@
 package com.spake.invent;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
@@ -11,25 +12,25 @@ import android.widget.EditText;
 
 import com.spake.invent.database.AppDatabase;
 import com.spake.invent.database.entity.Item;
+import com.spake.invent.ui.ItemsViewModel;
+import com.spake.invent.ui.StoragePlaceViewModel;
 
 import java.util.Date;
 
 public class NewItemActivity extends AppCompatActivity {
-
     EditText txtBarcodeValue, txtName, txtDesc;
     Button btnSave;
     Intent i;
-    private AppDatabase mDb;
+    ItemsViewModel itemViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_item);
         i = getIntent();
+        itemViewModel = ViewModelProviders.of(this).get(ItemsViewModel.class);
 
         initViews();
-
-        mDb = AppDatabase.getInstance(getApplicationContext());
     }
 
     public void onSaveButtonClicked(){
@@ -39,7 +40,7 @@ public class NewItemActivity extends AppCompatActivity {
 
         Item newItem = new Item(barcode, name, desc, 5);
         try {
-            mDb.itemDao().insertItem(newItem);
+            itemViewModel.insert(newItem);
         }catch(SQLiteConstraintException e){
             Log.e("SQLITE:",e.getLocalizedMessage());
         }

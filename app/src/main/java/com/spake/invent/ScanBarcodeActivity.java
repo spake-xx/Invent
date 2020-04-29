@@ -24,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 public class ScanBarcodeActivity extends AppCompatActivity {
-
     SurfaceView surfaceView;
     BarcodeDetector barcodeDetector;
     TextView txtBarcodeValue;
@@ -53,6 +52,7 @@ public class ScanBarcodeActivity extends AppCompatActivity {
                     Intent newIntent = new Intent(ScanBarcodeActivity.this, NewItemActivity.class);
                     newIntent.putExtra("barcode", scannedBarcode);
                     startActivity(newIntent);
+                    finish();
                 }
             }
         });

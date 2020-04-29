@@ -8,13 +8,13 @@
 
     <EditText
         android:id="@+id/txtName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="46dp"
         android:layout_marginTop="134dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Nazwa przedmiotu"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/txtDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,20 +23,21 @@
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="62dp"
         android:layout_marginStart="62dp"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_bold"
         android:text="Zapisz"
         app:layout_constraintEnd_toEndOf="@+id/txtName"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="@+id/txtDescription"
         app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
 
     <EditText
         android:id="@+id/txtBarcode"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:ems="10"
@@ -46,8 +47,8 @@
 
     <EditText
         android:id="@+id/txtDescription"
-        android:layout_width="207dp"
-        android:layout_height="94dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
         android:layout_marginTop="196dp"
         android:ems="10"
         android:hint="Opis"

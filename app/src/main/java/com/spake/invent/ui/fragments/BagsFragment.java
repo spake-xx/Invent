@@ -77,6 +77,7 @@ public class BagsFragment extends RVFragment {
         if(isOnItemList){
             Intent intent = new Intent(getActivity(), ScanBarcodeActivity.class);
             startActivity(intent);
+            return;
         };
 
         Intent intent = new Intent(getActivity(), NewStoragePlaceActivity.class);
