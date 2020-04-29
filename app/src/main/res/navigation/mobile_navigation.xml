@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_summary"
-        android:name="com.spake.invent.ui.items.ItemsFragment"
+        android:name="com.spake.invent.ui.fragments.SummaryFragment"
         android:label="@string/title_summary"
         tools:layout="@layout/fragment_items" />
 
     <fragment
         android:id="@+id/navigation_bags"
-        android:name="com.spake.invent.ui.bags.BagsFragment"
+        android:name="com.spake.invent.ui.fragments.BagsFragment"
         android:label="@string/title_bags"
         tools:layout="@layout/fragment_items" />
 
     <fragment
         android:id="@+id/navigation_lockers"
-        android:name="com.spake.invent.ui.lockers.LockersFragment"
+        android:name="com.spake.invent.ui.fragments.LockersFragment"
         android:label="@string/title_lockers"
         tools:layout="@layout/fragment_items" />
 </navigation>

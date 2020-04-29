@@ -1,4 +1,4 @@
-package com.spake.invent.ui.bags;
+package com.spake.invent.ui.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

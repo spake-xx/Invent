@@ -23,6 +23,9 @@ public interface ItemDAO {
     @Query("SELECT * FROM item WHERE storagePlaceId=:storageTypeId")
     LiveData<List<Item>> findByStoragePlace(final int storageTypeId);
 
+    @Query("SELECT COUNT(*) FROM item")
+    LiveData<Integer> getCount();
+
     @Insert
     void insertItem(Item item);
 

@@ -1,4 +1,4 @@
-package com.spake.invent.ui.lockers;
+package com.spake.invent.ui.fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;

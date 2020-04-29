@@ -7,19 +7,19 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.spake.invent.database.AppDatabase;
-import com.spake.invent.database.entity.Item;
 import com.spake.invent.database.entity.StoragePlace;
+import com.spake.invent.ui.StoragePlaceViewModel;
 
 import java.util.Date;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 public class NewStoragePlaceActivity extends AppCompatActivity {
     EditText txtName, txtDesc;
     Button btnSave;
     Intent i;
-    private AppDatabase mDb;
+    StoragePlaceViewModel storagePlaceViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class NewStoragePlaceActivity extends AppCompatActivity {
 
         initViews();
 
-        mDb = AppDatabase.getInstance(getApplicationContext());
+        storagePlaceViewModel = ViewModelProviders.of(this).get(StoragePlaceViewModel.class);
     }
 
     public void onSaveButtonClicked(){
@@ -39,7 +39,7 @@ public class NewStoragePlaceActivity extends AppCompatActivity {
 
         StoragePlace newStoragePlace = new StoragePlace(name, StoragePlace.Type.BAG, desc, date);
         try {
-            mDb.storagePlaceDao().insertStoragePlace(newStoragePlace);
+            storagePlaceViewModel.insert(newStoragePlace);
             Log.i("Database", "Added new storage place");
         }catch(SQLiteConstraintException e){
             Log.e("SQLITE:",e.getLocalizedMessage());

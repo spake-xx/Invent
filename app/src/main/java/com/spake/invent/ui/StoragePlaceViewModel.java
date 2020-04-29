@@ -19,10 +19,12 @@ import androidx.lifecycle.LiveData;
 
 public class StoragePlaceViewModel extends AndroidViewModel {
     private StoragePlaceDAO storagePlaceDAO;
+    private ExecutorService executorService;
 
     public StoragePlaceViewModel(@NonNull Application application) {
         super(application);
         storagePlaceDAO = AppDatabase.getInstance(application).storagePlaceDao();
+        executorService = Executors.newSingleThreadExecutor();
     }
 
     public LiveData<List<StoragePlace>> getAll(StoragePlace.Type type) {
@@ -31,6 +33,15 @@ public class StoragePlaceViewModel extends AndroidViewModel {
 
     public LiveData<StoragePlace> getSingle(int id) {
         return storagePlaceDAO.find(id);
+    }
+
+    public void insert(StoragePlace sp){
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                storagePlaceDAO.insertStoragePlace(sp);
+            }
+        });
     }
 
     public void remove(StoragePlace storagePlace) {
