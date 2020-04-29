@@ -1,4 +1,4 @@
-package com.spake.invent.ui.bags;
+package com.spake.invent.ui;
 
 import android.app.Application;
 import android.util.Log;
@@ -17,18 +17,20 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-public class BagsViewModel extends AndroidViewModel {
+public class StoragePlaceViewModel extends AndroidViewModel {
     private StoragePlaceDAO storagePlaceDAO;
-    private ExecutorService executorService;
 
-    public BagsViewModel(@NonNull Application application) {
+    public StoragePlaceViewModel(@NonNull Application application) {
         super(application);
         storagePlaceDAO = AppDatabase.getInstance(application).storagePlaceDao();
-        executorService = Executors.newSingleThreadExecutor();
     }
 
-    public LiveData<List<StoragePlace>> getAll() {
-        return storagePlaceDAO.findStoragePlaceByType(StoragePlace.Type.BAG.getCode());
+    public LiveData<List<StoragePlace>> getAll(StoragePlace.Type type) {
+        return storagePlaceDAO.findStoragePlaceByType(type.getCode());
+    }
+
+    public LiveData<StoragePlace> getSingle(int id) {
+        return storagePlaceDAO.find(id);
     }
 
     public void remove(StoragePlace storagePlace) {

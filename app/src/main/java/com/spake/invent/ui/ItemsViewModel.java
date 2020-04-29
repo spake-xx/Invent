@@ -1,4 +1,4 @@
-package com.spake.invent.ui.items;
+package com.spake.invent.ui;
 
 import android.app.Application;
 
@@ -29,6 +29,10 @@ public class ItemsViewModel extends AndroidViewModel {
 
     public LiveData<List<Item>> getAll() {
         return itemDao.findAll();
+    }
+
+    public LiveData<Item> getSingle(int id) {
+        return itemDao.find(id);
     }
 
     public LiveData<List<Item>> getByStoragePlace(int storagePlaceId){ return itemDao.findByStoragePlace(storagePlaceId); }

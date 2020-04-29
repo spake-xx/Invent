@@ -18,6 +18,9 @@ public interface StoragePlaceDAO {
     @Query("SELECT * FROM storage_place ORDER BY createdAt")
     LiveData<List<StoragePlace>> findAll();
 
+    @Query("SELECT * FROM storage_place WHERE id=:id")
+    LiveData<StoragePlace> find(int id);
+
     @Query("SELECT * FROM storage_place WHERE type=:type")
     LiveData<List<StoragePlace>> findStoragePlaceByType(final int type);
 

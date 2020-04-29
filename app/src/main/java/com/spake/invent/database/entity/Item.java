@@ -68,4 +68,12 @@ public class Item {
     public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
+
+    public int getStoragePlaceId() {
+        return storagePlaceId;
+    }
+
+    public void setStoragePlaceId(int storagePlaceId) {
+        this.storagePlaceId = storagePlaceId;
+    }
 }

@@ -15,7 +15,7 @@ import com.spake.invent.ui.ItemAdapter;
 import com.spake.invent.R;
 import com.spake.invent.database.entity.Item;
 import com.spake.invent.ui.RVFragment;
-import com.spake.invent.ui.items.ItemsViewModel;
+import com.spake.invent.ui.ItemsViewModel;
 
 public class LockersFragment extends RVFragment {
     private ItemsViewModel viewModel;

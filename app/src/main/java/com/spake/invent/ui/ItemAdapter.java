@@ -37,6 +37,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.myText2.setText(data.get(position).getDescription());
     }
 
+    public Item getItemByPosition(int position){
+        return data.get(position);
+    }
+
     @Override
     public int getItemCount() {
         if(data==null) return 0;
