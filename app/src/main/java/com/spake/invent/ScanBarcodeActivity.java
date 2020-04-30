@@ -17,11 +17,14 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.spake.invent.database.entity.Item;
+import com.spake.invent.ui.ItemsViewModel;
 
 import java.io.IOException;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProviders;
 
 public class ScanBarcodeActivity extends AppCompatActivity {
     SurfaceView surfaceView;
@@ -31,11 +34,16 @@ public class ScanBarcodeActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     Button btnAction;
     String scannedBarcode = "";
+    Bundle bundle;
+    ItemsViewModel itemsViewModel;
+    Item scannedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_barcode);
+        bundle = getIntent().getExtras();
+        itemsViewModel = ViewModelProviders.of(this).get(ItemsViewModel.class);
 
         initViews();
     }
@@ -49,18 +57,37 @@ public class ScanBarcodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (scannedBarcode.length() > 0) {
-                    Intent newIntent = new Intent(ScanBarcodeActivity.this, NewItemActivity.class);
-                    newIntent.putExtra("barcode", scannedBarcode);
-                    startActivity(newIntent);
-                    finish();
+                    if(bundle != null) {
+                        addNewItem();
+                    }else{
+                        showItemInfo();
+                    }
                 }
             }
         });
     }
 
-    private void initialiseDetectorsAndSources() {
-//        Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
+    private void addNewItem(){
+        Intent newIntent = new Intent(ScanBarcodeActivity.this, NewItemActivity.class);
+        newIntent.putExtra("barcode", scannedBarcode);
+        newIntent.putExtra("storage_place_id", bundle.getInt("storage_place_id"));
+        startActivity(newIntent);
+        finish();
+    }
 
+    private void showItemInfo(){
+        itemsViewModel.getSingleByBarcode(scannedBarcode).observe(this, item -> {
+            scannedItem = item;
+        });
+        Intent newIntent = new Intent(ScanBarcodeActivity.this, ShowItemInfo.class);
+
+        Bundle newBundle = new Bundle();
+        newBundle.putInt("item_id", scannedItem.getId());
+        startActivity(newIntent);
+        finish();
+    }
+
+    private void initialiseDetectorsAndSources() {
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();

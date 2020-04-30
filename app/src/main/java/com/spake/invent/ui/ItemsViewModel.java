@@ -35,6 +35,10 @@ public class ItemsViewModel extends AndroidViewModel {
         return itemDao.find(id);
     }
 
+    public LiveData<Item> getSingleByBarcode(String barcode) {
+        return itemDao.findByBarcode(barcode);
+    }
+
     public LiveData<List<Item>> getByStoragePlace(int storagePlaceId){ return itemDao.findByStoragePlace(storagePlaceId); }
 
     public LiveData<Integer> getCount(){ return itemDao.getCount(); };

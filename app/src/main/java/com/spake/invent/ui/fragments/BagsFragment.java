@@ -30,6 +30,7 @@ public class BagsFragment extends RVFragment {
     private StoragePlaceAdapter adapter;
     private boolean isOnItemList = false;
     ItemAdapter itemAdapter;
+    StoragePlace selectedStoragePlace;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = ViewModelProviders.of(this).get(StoragePlaceViewModel.class);
@@ -51,7 +52,6 @@ public class BagsFragment extends RVFragment {
     @Override
     public void onRowClick(int position) {
         super.onRowClick(position);
-
         if(isOnItemList){
             Log.i("CLICKED", "ON ITEM"+Integer.toString(position));
             Item clickedItem = itemAdapter.getItemByPosition(position);
@@ -63,11 +63,11 @@ public class BagsFragment extends RVFragment {
             return;
         }
 
-        StoragePlace sp = adapter.getStoragePlaceByPosition(position);
+        selectedStoragePlace = adapter.getStoragePlaceByPosition(position);
         itemAdapter = new ItemAdapter(getActivity());
         recyclerView.setAdapter(itemAdapter);
         ItemsViewModel viewModel = ViewModelProviders.of(this).get(ItemsViewModel.class);
-        viewModel.getByStoragePlace(sp.getId()).observe(getViewLifecycleOwner(), items -> itemAdapter.setData(items));
+        viewModel.getByStoragePlace(selectedStoragePlace.getId()).observe(getViewLifecycleOwner(), items -> itemAdapter.setData(items));
         isOnItemList = true;
 //        getActivity().getActionBar().setTitle(sp.getName());
     }
@@ -76,6 +76,9 @@ public class BagsFragment extends RVFragment {
     public void addNewItem() {
         if(isOnItemList){
             Intent intent = new Intent(getActivity(), ScanBarcodeActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("storage_place_id", selectedStoragePlace.getId());
+            intent.putExtras(bundle);
             startActivity(intent);
             return;
         };
