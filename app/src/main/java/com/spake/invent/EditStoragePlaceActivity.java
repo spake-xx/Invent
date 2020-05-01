@@ -15,17 +15,19 @@ import java.util.Date;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
-public class NewStoragePlaceActivity extends AppCompatActivity {
+public class EditStoragePlaceActivity extends AppCompatActivity {
     EditText txtName, txtDesc;
     Button btnSave;
     Intent i;
     StoragePlaceViewModel storagePlaceViewModel;
+    StoragePlace.Type storagePlaceType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_item);
         i = getIntent();
+        storagePlaceType = (StoragePlace.Type) i.getSerializableExtra("storage_place_type");
 
         initViews();
 
@@ -37,7 +39,7 @@ public class NewStoragePlaceActivity extends AppCompatActivity {
         String name = txtName.getText().toString();
         String desc = txtDesc.getText().toString();
 
-        StoragePlace newStoragePlace = new StoragePlace(name, StoragePlace.Type.BAG, desc, date);
+        StoragePlace newStoragePlace = new StoragePlace(name, storagePlaceType, desc, date);
         try {
             storagePlaceViewModel.insert(newStoragePlace);
             Log.i("Database", "Added new storage place");

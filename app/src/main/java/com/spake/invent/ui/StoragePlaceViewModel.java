@@ -45,6 +45,11 @@ public class StoragePlaceViewModel extends AndroidViewModel {
     }
 
     public void remove(StoragePlace storagePlace) {
-        storagePlaceDAO.deleteStoragePlace(storagePlace);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                storagePlaceDAO.deleteStoragePlace(storagePlace);
+            }
+        });
     }
 }

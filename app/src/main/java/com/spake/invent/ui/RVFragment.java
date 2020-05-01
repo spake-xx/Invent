@@ -1,5 +1,6 @@
 package com.spake.invent.ui;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,24 +10,58 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.spake.invent.EditItemActivity;
 import com.spake.invent.R;
+import com.spake.invent.ScanBarcodeActivity;
+import com.spake.invent.ShowItemInfo;
+import com.spake.invent.database.entity.Item;
+import com.spake.invent.database.entity.StoragePlace;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class RVFragment extends Fragment {
-    public RecyclerView recyclerView;
+    protected StoragePlace.Type storagePlaceType;
     private FloatingActionButton btnAdd;
+
+    protected RecyclerView recyclerView;
+    protected StoragePlaceViewModel storagePlaceViewModel;
+    protected ItemsViewModel itemsViewModel;
+
+    protected StoragePlaceAdapter storagePlaceAdapter;
+    protected ItemAdapter itemAdapter;
+
+    protected boolean isOnItemList = false;
+    protected StoragePlace selectedStoragePlace;
+
+    public RVFragment(StoragePlace.Type type){
+        storagePlaceType = type;
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        storagePlaceViewModel = ViewModelProviders.of(this).get(StoragePlaceViewModel.class);
+        itemsViewModel = ViewModelProviders.of(this).get(ItemsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_items, container, false);
+
+        return root;
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        recyclerView = view.findViewById(R.id.rv_items);
+        storagePlaceAdapter = new StoragePlaceAdapter(getActivity());
+        recyclerView.setAdapter(storagePlaceAdapter);
+        storagePlaceViewModel.getAll(storagePlaceType).observe(getViewLifecycleOwner(), items -> storagePlaceAdapter.setData(items));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -41,14 +76,31 @@ public abstract class RVFragment extends Fragment {
                 addNewItem();
             }
         });
+
         initSwipe();
     }
 
     public void onRowClick(int position){
         Log.i("Clicked row", Integer.toString(position));
+        if(isOnItemList){
+            Item clickedItem = itemAdapter.getItemByPosition(position);
+            Intent intent = new Intent(getActivity(), ShowItemInfo.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("item_id", clickedItem.getId());
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 
-    public void addNewItem(){};
+    public void addNewItem(){
+        if(isOnItemList){
+            Intent intent = new Intent(getActivity(), ScanBarcodeActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("storage_place_id", selectedStoragePlace.getId());
+            intent.putExtras(bundle);
+            startActivity(intent);
+        };
+    };
 
     private void initSwipe() {
         Paint p = new Paint();
@@ -66,7 +118,6 @@ public abstract class RVFragment extends Fragment {
                 if (direction == ItemTouchHelper.LEFT) {
                     Log.i("SWAJP:", "Swajpnieto w lewo");
                     leftSwipe(position);
-
                 } else {
                     Log.i("SWAJP:", "Swajpnieto w prawo");
                     rightSwipe(position);
@@ -123,10 +174,30 @@ public abstract class RVFragment extends Fragment {
      * Method called by swiping left that you can bind to your own logic
      * @param position Recyclerview swiped row position number
      */
-    public void leftSwipe(int position){}
+    public void leftSwipe(int position){
+        if(isOnItemList){
+            Item item = itemAdapter.getItemByPosition(position);
+
+            Log.i("Deleted: ", item.getName());
+            itemsViewModel.remove(item);
+            itemAdapter.removeItem(position);
+            itemAdapter.notifyItemChanged(position);
+        };
+
+    }
     /**
      * Method called by swiping right that you can bind to your own logic
      * @param position Recyclerview swiped row position number
      */
-    public void rightSwipe(int position){}
+    public void rightSwipe(int position){
+        if(isOnItemList){
+            Item item = itemAdapter.getItemByPosition(position);
+            Intent intent = new Intent(getActivity(), EditItemActivity.class);
+            intent.putExtra("item_id", item.getId());
+            startActivity(intent);
+            itemAdapter.notifyItemChanged(position);
+        };
+
+        itemAdapter.notifyItemChanged(position);
+    }
 }

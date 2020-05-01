@@ -4,9 +4,13 @@ import java.util.Date;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 @Entity(tableName = "item", foreignKeys = @ForeignKey(entity = StoragePlace.class,
+        onDelete = CASCADE,
         parentColumns = "id",
         childColumns = "storagePlaceId" ))
 public class Item {
@@ -26,6 +30,16 @@ public class Item {
         this.name = name;
         this.description = description;
         this.storagePlaceId = storagePlaceId;
+    }
+
+    @Ignore
+    public Item(int id, String barcode, String name, String description, int storagePlaceId) {
+        this.createdAt = new Date();;
+        this.barcode = barcode;
+        this.name = name;
+        this.description = description;
+        this.storagePlaceId = storagePlaceId;
+        this.id = id;
     }
 
 

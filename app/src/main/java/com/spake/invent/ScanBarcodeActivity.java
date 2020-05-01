@@ -68,7 +68,7 @@ public class ScanBarcodeActivity extends AppCompatActivity {
     }
 
     private void addNewItem(){
-        Intent newIntent = new Intent(ScanBarcodeActivity.this, NewItemActivity.class);
+        Intent newIntent = new Intent(ScanBarcodeActivity.this, EditItemActivity.class);
         newIntent.putExtra("barcode", scannedBarcode);
         newIntent.putExtra("storage_place_id", bundle.getInt("storage_place_id"));
         startActivity(newIntent);

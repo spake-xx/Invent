@@ -14,8 +14,8 @@
         <!-- <activity -->
         <!-- android:name=".MainActivity" -->
         <!-- android:label="@string/title_activity_main2"></activity> -->
-        <activity android:name=".NewItemActivity" />
-        <activity android:name=".NewStoragePlaceActivity" />
+        <activity android:name=".EditItemActivity" />
+        <activity android:name=".EditStoragePlaceActivity" />
         <activity
             android:name=".ScanBarcodeActivity"
             android:label="@string/title_activity_scanned_barcode"

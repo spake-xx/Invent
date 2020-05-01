@@ -16,8 +16,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class ItemsViewModel extends AndroidViewModel {
-
-    private MutableLiveData<String> mText;
     private ItemDAO itemDao;
     private ExecutorService executorService;
 
@@ -53,6 +51,11 @@ public class ItemsViewModel extends AndroidViewModel {
     }
 
     public void remove(Item item) {
-        itemDao.deleteItem(item);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                itemDao.deleteItem(item);
+            }
+        });
     }
 }

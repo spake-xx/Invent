@@ -4,24 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.spake.invent.database.AppDatabase;
 import com.spake.invent.database.entity.Item;
 import com.spake.invent.ui.ItemsViewModel;
-import com.spake.invent.ui.StoragePlaceViewModel;
 
-import java.util.Date;
-
-public class NewItemActivity extends AppCompatActivity {
+public class EditItemActivity extends AppCompatActivity {
     EditText txtBarcodeValue, txtName, txtDesc;
     Button btnSave;
     Intent i;
     ItemsViewModel itemViewModel;
+    Item editingItem;
+    String intentBarcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +25,11 @@ public class NewItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_item);
         i = getIntent();
         itemViewModel = ViewModelProviders.of(this).get(ItemsViewModel.class);
-
+        intentBarcode = i.getStringExtra("barcode");
         initViews();
+
+        if(intentBarcode ==null)
+            initEditForm();
     }
 
     public void onSaveButtonClicked(){
@@ -38,11 +37,13 @@ public class NewItemActivity extends AppCompatActivity {
         String name = txtName.getText().toString();
         String desc = txtDesc.getText().toString();
 
-        Item newItem = new Item(barcode, name, desc, 5);
-        try {
+        if(intentBarcode!=null) {
+            int storagePlaceId = i.getIntExtra("storage_place_id", 0);
+            Item newItem = new Item(barcode, name, desc, storagePlaceId);
             itemViewModel.insert(newItem);
-        }catch(SQLiteConstraintException e){
-            Log.e("SQLITE:",e.getLocalizedMessage());
+        }else{
+            Item editedItem = new Item(editingItem.getId(), barcode, name, desc, editingItem.getStoragePlaceId());
+//            itemViewModel.update(newItem);
         }
         finish();
     }
@@ -51,8 +52,18 @@ public class NewItemActivity extends AppCompatActivity {
         txtBarcodeValue = findViewById(R.id.txtBarcode);
         txtName = findViewById(R.id.txtName);
         txtDesc = findViewById(R.id.txtDescription);
-        txtBarcodeValue.setText(i.getStringExtra("barcode"));
+        if(intentBarcode !=null) txtBarcodeValue.setText(i.getStringExtra("barcode"));
         btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener((view)->{ onSaveButtonClicked(); });
+    }
+
+    private void initEditForm(){
+        int itemId = i.getIntExtra("item_id", 0);
+        itemViewModel.getSingle(itemId).observe(this, item -> {
+            editingItem = item;
+            txtBarcodeValue.setText(item.getBarcode());
+            txtName.setText(item.getName());
+            txtDesc.setText(item.getDescription());
+        });
     }
 }
