@@ -30,6 +30,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Abstract class for all recyclerviews in the application.
+ * Has handling for swiping left/right and clicking single row.
+ */
 public abstract class RVFragment extends Fragment {
     protected StoragePlace.Type storagePlaceType;
     private FloatingActionButton btnAdd;
@@ -44,6 +48,9 @@ public abstract class RVFragment extends Fragment {
     protected boolean isOnItemList = false;
     protected StoragePlace selectedStoragePlace;
 
+    /**
+     * @param type for storage place handled
+     */
     public RVFragment(StoragePlace.Type type){
         storagePlaceType = type;
     }
@@ -80,6 +87,11 @@ public abstract class RVFragment extends Fragment {
         initSwipe();
     }
 
+    /**
+     * Method called when user clicks on recyclerview single item.
+     * In default has itemAdapter handling - ShowItemInfo activity starts when user is on itemview adapter.
+     * @param position position in the recyclerview adapter has been clicked
+     */
     public void onRowClick(int position){
         Log.i("Clicked row", Integer.toString(position));
         if(isOnItemList){
@@ -92,6 +104,10 @@ public abstract class RVFragment extends Fragment {
         }
     }
 
+    /**
+     * Method called when user clicks on add new item button.
+     * In default has itemAdapter handling - ScanBarcodeActivity starts when user is on itemview adapter.
+     */
     public void addNewItem(){
         if(isOnItemList){
             Intent intent = new Intent(getActivity(), ScanBarcodeActivity.class);
@@ -102,6 +118,10 @@ public abstract class RVFragment extends Fragment {
         };
     };
 
+    /**
+     * Implements all swipe posibilities.
+     * Implements also canvas - drawing colored background and icon on the user swipe.
+     */
     private void initSwipe() {
         Paint p = new Paint();
 
@@ -156,6 +176,11 @@ public abstract class RVFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    /**
+     * Helper method used to convert Drawable to Bitmap
+     * @param drawable drawable object to convert
+     * @return bitmap result
+     */
     private static Bitmap drawableToBitmap (Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable)drawable).getBitmap();
@@ -172,6 +197,7 @@ public abstract class RVFragment extends Fragment {
 
     /**
      * Method called by swiping left that you can bind to your own logic
+     * In default has itemAdapter handling.
      * @param position Recyclerview swiped row position number
      */
     public void leftSwipe(int position){
@@ -180,13 +206,14 @@ public abstract class RVFragment extends Fragment {
 
             Log.i("Deleted: ", item.getName());
             itemsViewModel.remove(item);
-            itemAdapter.removeItem(position);
+            itemAdapter.remove(position);
             itemAdapter.notifyItemChanged(position);
         };
 
     }
     /**
      * Method called by swiping right that you can bind to your own logic
+     * In default has itemAdapter handling.
      * @param position Recyclerview swiped row position number
      */
     public void rightSwipe(int position){

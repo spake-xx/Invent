@@ -27,32 +27,53 @@ public class StoragePlaceViewModel extends AndroidViewModel {
         executorService = Executors.newSingleThreadExecutor();
     }
 
+    /**
+     * Gets all StoragePlace objects from database.
+     * @return LiveData StoragePlace list.
+     */
     public LiveData<List<StoragePlace>> getAll(StoragePlace.Type type) {
         return storagePlaceDAO.findStoragePlaceByType(type.getCode());
     }
 
+    /**
+     * Get single StoragePlace object from database.
+     * @param id id of StoragePlace in database.
+     * @return LiveData StoragePlace object.
+     */
     public LiveData<StoragePlace> getSingle(int id) {
         return storagePlaceDAO.find(id);
     }
 
-    public void insert(StoragePlace sp){
+    /**
+     * Inserts new StoragePlace object into database
+     * @param storagePlace
+     */
+    public void insert(StoragePlace storagePlace){
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                storagePlaceDAO.insertStoragePlace(sp);
+                storagePlaceDAO.insertStoragePlace(storagePlace);
             }
         });
     }
 
-    public void update(StoragePlace sp){
+    /**
+     * Updates one StoragePlace object in database
+     * @param storagePlace object
+     */
+    public void update(StoragePlace storagePlace){
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                storagePlaceDAO.updateStoragePlace(sp);
+                storagePlaceDAO.updateStoragePlace(storagePlace);
             }
         });
     }
 
+    /**
+     * Removes one StoragePlace from database
+     * @param storagePlace entity object
+     */
     public void remove(StoragePlace storagePlace) {
         executorService.execute(new Runnable() {
             @Override

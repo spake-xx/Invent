@@ -19,6 +19,11 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "barcodes";
     private static AppDatabase sInstance;
 
+    /**
+     * Get singleton instance
+     * @param context application context
+     * @return instance of db
+     */
     public static AppDatabase getInstance(Context context){
         if (sInstance == null){
             synchronized(LOCK){

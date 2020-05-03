@@ -27,18 +27,26 @@ public class ShowItemInfo extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         assert b!=null;
         itemId = b.getInt("item_id");
+
         initViews();
+        getItemInfo();
     }
 
+    /**
+     * Inits all buttons, textviews and other from layout to variables
+     */
     public void initViews(){
-//        assert getSupportActionBar()!=null;
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         txtItemName = findViewById(R.id.itemName);
         txtItemDescription = findViewById(R.id.itemDescription);
         txtStoragePlace = findViewById(R.id.storagePlace);
+    }
 
-        itemViewModel.getSingle(itemId).observe(this, item -> {
+    /**
+     * Loads item info from database and pass it to view
+     */
+    private void getItemInfo(){
+        itemViewModel.getSingle(itemId).observe(this, loadedItem -> {
+            item = loadedItem;
             txtItemName.setText(item.getName());
             txtItemDescription.setText(item.getDescription());
             storagePlaceViewModel.getSingle(item.getStoragePlaceId()).observe(this, storagePlace ->{

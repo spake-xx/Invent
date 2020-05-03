@@ -14,6 +14,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * RecyclerView adapter for Item entity
+ */
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
     Context context;
     List<Item> data;
@@ -37,6 +40,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.myText2.setText(data.get(position).getDescription());
     }
 
+    /**
+     * Get item by position from adapter data set.
+     * @param position position in RecyclerView adapter.
+     * @return Item object
+     */
     public Item getItemByPosition(int position){
         return data.get(position);
     }
@@ -47,20 +55,28 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         return data.size();
     }
 
+    /**
+     * Sets adapter data.
+     * @param newData new data set.
+     */
     public void setData(List<Item> newData) {
         this.data = newData;
-//        for(int i=0; i<5; i++){
-//            Item test = new Item("Test", "Testowy opis", new Date());
-//            data.add(test);
-//        }
         notifyDataSetChanged();
     }
 
+    /**
+     * Get adapter data set.
+     * @return List of Items in data set.
+     */
     public List<Item> getData() {
         return data;
     }
 
-    public void removeItem(int position){
+    /**
+     * Removes item from data set and notify adapter about remove.
+     * @param position Item position in data set to remove.
+     */
+    public void remove(int position){
         data.remove(position);
         notifyItemRemoved(position);
     }

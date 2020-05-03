@@ -1,13 +1,11 @@
 package com.spake.invent;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.spake.invent.database.entity.Item;
 import com.spake.invent.database.entity.StoragePlace;
 import com.spake.invent.ui.StoragePlaceViewModel;
 
@@ -35,11 +33,14 @@ public class EditStoragePlaceActivity extends AppCompatActivity {
         storagePlaceViewModel = ViewModelProviders.of(this).get(StoragePlaceViewModel.class);
 
         initViews();
-        if(storagePlaceId>0) initEditForm();
+        if(storagePlaceId>0) loadStoragePlaceInfo();
 
     }
 
-    public void onSaveButtonClicked(){
+    /**
+     * Save Button Click-Callback.
+     */
+    protected void onSaveButtonClicked(){
         Date date = new Date();
         String name = txtName.getText().toString();
         String desc = txtDesc.getText().toString();
@@ -56,6 +57,9 @@ public class EditStoragePlaceActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Inits all buttons, textviews and other from layout to variables
+     */
     protected void initViews(){
         txtName = findViewById(R.id.txtName);
         txtDesc = findViewById(R.id.txtDescription);
@@ -63,7 +67,10 @@ public class EditStoragePlaceActivity extends AppCompatActivity {
         btnSave.setOnClickListener((view)->{ onSaveButtonClicked(); });
     }
 
-    private void initEditForm(){
+    /**
+     * Loads StoragePlace from database and pass it to the view
+     */
+    protected void loadStoragePlaceInfo(){
         storagePlaceViewModel.getSingle(storagePlaceId).observe(this, storagePlace -> {
             editingStoragePlace = storagePlace;
             txtName.setText(storagePlace.getName());

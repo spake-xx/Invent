@@ -44,10 +44,19 @@ public class StoragePlaceAdapter extends RecyclerView.Adapter<StoragePlaceAdapte
         return data.size();
     }
 
+    /**
+     * Get StoragePlace by position from adapter data set.
+     * @param position position in RecyclerView adapter.
+     * @return StoragePlace object
+     */
     public StoragePlace getStoragePlaceByPosition(int position){
         return data.get(position);
     }
 
+    /**
+     * Sets adapter data.
+     * @param newData new data set.
+     */
     public void setData(List<StoragePlace> newData) {
         this.data = newData;
 //        for(int i=0; i<5; i++){
@@ -57,10 +66,18 @@ public class StoragePlaceAdapter extends RecyclerView.Adapter<StoragePlaceAdapte
         notifyDataSetChanged();
     }
 
+    /**
+     * Get adapter data set.
+     * @return List of Items in data set.
+     */
     public List<StoragePlace> getData() {
         return data;
     }
 
+    /**
+     * Removes StoragePlace from data set and notify adapter about remove.
+     * @param position StoragePlace position in data set to remove.
+     */
     public void remove(int position){
         data.remove(position);
         notifyItemRemoved(position);

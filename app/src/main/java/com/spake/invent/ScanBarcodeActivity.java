@@ -76,7 +76,7 @@ public class ScanBarcodeActivity extends AppCompatActivity {
     }
 
     private void showItemInfo(){
-        itemsViewModel.getSingleByBarcode(scannedBarcode).observe(this, item -> {
+        itemsViewModel.getSingle(scannedBarcode).observe(this, item -> {
             scannedItem = item;
         });
         Intent newIntent = new Intent(ScanBarcodeActivity.this, ShowItemInfo.class);

@@ -29,10 +29,13 @@ public class EditItemActivity extends AppCompatActivity {
         initViews();
 
         if(intentBarcode ==null)
-            initEditForm();
+            loadItemInfo();
     }
 
-    public void onSaveButtonClicked(){
+    /**
+     * Save Button Click-Callback.
+     */
+    protected void onSaveButtonClicked(){
         String barcode = txtBarcodeValue.getText().toString();
         String name = txtName.getText().toString();
         String desc = txtDesc.getText().toString();
@@ -48,6 +51,9 @@ public class EditItemActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Inits all buttons, textviews and other from layout to variables
+     */
     protected void initViews(){
         txtBarcodeValue = findViewById(R.id.txtBarcode);
         txtName = findViewById(R.id.txtName);
@@ -57,7 +63,10 @@ public class EditItemActivity extends AppCompatActivity {
         btnSave.setOnClickListener((view)->{ onSaveButtonClicked(); });
     }
 
-    private void initEditForm(){
+    /**
+     * Loads item from database and pass it to the view
+     */
+    protected void loadItemInfo(){
         int itemId = i.getIntExtra("item_id", 0);
         itemViewModel.getSingle(itemId).observe(this, item -> {
             editingItem = item;

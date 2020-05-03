@@ -7,6 +7,9 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Possibility to create new callback on recycler view item clicked
+ */
 class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
     private OnItemClickListener mListener;
 
