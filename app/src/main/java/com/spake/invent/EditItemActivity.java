@@ -43,7 +43,7 @@ public class EditItemActivity extends AppCompatActivity {
             itemViewModel.insert(newItem);
         }else{
             Item editedItem = new Item(editingItem.getId(), barcode, name, desc, editingItem.getStoragePlaceId());
-//            itemViewModel.update(newItem);
+            itemViewModel.update(editedItem);
         }
         finish();
     }

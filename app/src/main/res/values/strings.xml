@@ -17,4 +17,14 @@
     <string name="title_bags">Torby</string>
     <string name="title_lockers">Szafki</string>
     <string name="title_scan">Skanuj</string>
+    <string name="save">Zapisz</string>
+    <string name="name">Nazwa</string>
+    <string name="description">Opis</string>
+    <string name="barcode_not_detected">Nie wykryto kodu kreskowego</string>
+    <string name="add_new_item">Dodaj przedmiot</string>
+    <string name="storage_place">Miejsce przechowania</string>
+    <string name="barcode_scan">Skanuj kod</string>
+    <string name="items_in_db">przedmiotów</string>
+
+
 </resources>

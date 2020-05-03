@@ -5,6 +5,7 @@ import com.spake.invent.database.PlaceTypeConverter;
 import java.util.Date;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -20,6 +21,15 @@ public class StoragePlace {
 
 
     public StoragePlace(String name, Type type, String description, Date createdAt) {
+        this.name = name;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.type = type;
+    }
+
+    @Ignore
+    public StoragePlace(int id, String name, Type type, String description, Date createdAt) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.createdAt = createdAt;

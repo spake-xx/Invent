@@ -197,7 +197,5 @@ public abstract class RVFragment extends Fragment {
             startActivity(intent);
             itemAdapter.notifyItemChanged(position);
         };
-
-        itemAdapter.notifyItemChanged(position);
     }
 }

@@ -44,6 +44,15 @@ public class StoragePlaceViewModel extends AndroidViewModel {
         });
     }
 
+    public void update(StoragePlace sp){
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                storagePlaceDAO.updateStoragePlace(sp);
+            }
+        });
+    }
+
     public void remove(StoragePlace storagePlace) {
         executorService.execute(new Runnable() {
             @Override

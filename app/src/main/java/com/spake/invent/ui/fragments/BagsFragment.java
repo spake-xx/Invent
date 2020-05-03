@@ -63,6 +63,13 @@ public class BagsFragment extends RVFragment{
 
     @Override
     public void rightSwipe(int position) {
+        if(!isOnItemList){
+            StoragePlace sp = storagePlaceAdapter.getStoragePlaceByPosition(position);
+            Intent intent = new Intent(getActivity(), EditStoragePlaceActivity.class);
+            intent.putExtra("storage_place_id", sp.getId());
+            startActivity(intent);
+            storagePlaceAdapter.notifyItemChanged(position);
+        }
         super.rightSwipe(position);
     }
 }

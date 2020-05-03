@@ -50,6 +50,15 @@ public class ItemsViewModel extends AndroidViewModel {
         });
     }
 
+    public void update(Item item){
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                itemDao.updateItem(item);
+            }
+        });
+    }
+
     public void remove(Item item) {
         executorService.execute(new Runnable() {
             @Override

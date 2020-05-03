@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.spake.invent.database.entity.Item;
 import com.spake.invent.database.entity.StoragePlace;
 import com.spake.invent.ui.StoragePlaceViewModel;
 
@@ -21,6 +22,8 @@ public class EditStoragePlaceActivity extends AppCompatActivity {
     Intent i;
     StoragePlaceViewModel storagePlaceViewModel;
     StoragePlace.Type storagePlaceType;
+    StoragePlace editingStoragePlace;
+    int storagePlaceId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +31,12 @@ public class EditStoragePlaceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_item);
         i = getIntent();
         storagePlaceType = (StoragePlace.Type) i.getSerializableExtra("storage_place_type");
+        storagePlaceId = i.getIntExtra("storage_place_id", 0);
+        storagePlaceViewModel = ViewModelProviders.of(this).get(StoragePlaceViewModel.class);
 
         initViews();
+        if(storagePlaceId>0) initEditForm();
 
-        storagePlaceViewModel = ViewModelProviders.of(this).get(StoragePlaceViewModel.class);
     }
 
     public void onSaveButtonClicked(){
@@ -39,13 +44,15 @@ public class EditStoragePlaceActivity extends AppCompatActivity {
         String name = txtName.getText().toString();
         String desc = txtDesc.getText().toString();
 
-        StoragePlace newStoragePlace = new StoragePlace(name, storagePlaceType, desc, date);
-        try {
+        if(storagePlaceId>0){
+            StoragePlace editedStoragePlace = new StoragePlace(editingStoragePlace.getId(),  name, editingStoragePlace.getType(), desc, editingStoragePlace.getCreatedAt());
+            storagePlaceViewModel.update(editedStoragePlace);
+        }else {
+            StoragePlace newStoragePlace = new StoragePlace(name, storagePlaceType, desc, date);
             storagePlaceViewModel.insert(newStoragePlace);
             Log.i("Database", "Added new storage place");
-        }catch(SQLiteConstraintException e){
-            Log.e("SQLITE:",e.getLocalizedMessage());
         }
+
         finish();
     }
 
@@ -54,5 +61,13 @@ public class EditStoragePlaceActivity extends AppCompatActivity {
         txtDesc = findViewById(R.id.txtDescription);
         btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener((view)->{ onSaveButtonClicked(); });
+    }
+
+    private void initEditForm(){
+        storagePlaceViewModel.getSingle(storagePlaceId).observe(this, storagePlace -> {
+            editingStoragePlace = storagePlace;
+            txtName.setText(storagePlace.getName());
+            txtDesc.setText(storagePlace.getDescription());
+        });
     }
 }
