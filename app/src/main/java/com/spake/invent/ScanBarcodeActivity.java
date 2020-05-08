@@ -19,6 +19,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.spake.invent.database.entity.Item;
 import com.spake.invent.ui.ItemsViewModel;
+import com.spake.invent.ui.StoragePlaceViewModel;
 
 import java.io.IOException;
 
@@ -29,13 +30,14 @@ import androidx.lifecycle.ViewModelProviders;
 public class ScanBarcodeActivity extends AppCompatActivity {
     SurfaceView surfaceView;
     BarcodeDetector barcodeDetector;
-    TextView txtBarcodeValue;
+    TextView txtBarcodeValue, txtItemStoragePlace, txtItemName;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     Button btnAction;
     String scannedBarcode = "";
     Bundle bundle;
     ItemsViewModel itemsViewModel;
+    StoragePlaceViewModel storagePlaceViewModel;
     Item scannedItem;
 
     @Override
@@ -44,12 +46,19 @@ public class ScanBarcodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan_barcode);
         bundle = getIntent().getExtras();
         itemsViewModel = ViewModelProviders.of(this).get(ItemsViewModel.class);
+        storagePlaceViewModel = ViewModelProviders.of(this).get(StoragePlaceViewModel.class);
 
+        setTitle("Skanuj kod kreskowy");
         initViews();
     }
 
+    /**
+     * Inits all textviews and buttons
+     */
     private void initViews() {
         txtBarcodeValue = findViewById(R.id.txtBarcodeValue);
+        txtItemName = findViewById(R.id.txtItemName);
+        txtItemStoragePlace = findViewById(R.id.txtItemStoragePlace);
         surfaceView = findViewById(R.id.surfaceView);
         btnAction = findViewById(R.id.btnAction);
 
@@ -57,17 +66,20 @@ public class ScanBarcodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (scannedBarcode.length() > 0) {
-                    if(bundle != null) {
-                        addNewItem();
-                    }else{
-                        showItemInfo();
+                    if (bundle != null) {
+                        addNewItemActivity();
+                    } else {
+                        showItemInfoActivity();
                     }
                 }
             }
         });
     }
 
-    private void addNewItem(){
+    /**
+     * Runs new item activity
+     */
+    private void addNewItemActivity() {
         Intent newIntent = new Intent(ScanBarcodeActivity.this, EditItemActivity.class);
         newIntent.putExtra("barcode", scannedBarcode);
         newIntent.putExtra("storage_place_id", bundle.getInt("storage_place_id"));
@@ -75,18 +87,42 @@ public class ScanBarcodeActivity extends AppCompatActivity {
         finish();
     }
 
-    private void showItemInfo(){
-        itemsViewModel.getSingle(scannedBarcode).observe(this, item -> {
-            scannedItem = item;
-        });
+    /**
+     * Runs show item info activity
+     */
+    private void showItemInfoActivity(){
         Intent newIntent = new Intent(ScanBarcodeActivity.this, ShowItemInfo.class);
 
         Bundle newBundle = new Bundle();
         newBundle.putInt("item_id", scannedItem.getId());
+        newIntent.putExtras(newBundle);
         startActivity(newIntent);
         finish();
     }
 
+    /**
+     * Shows info about item
+     */
+    private void showItemInfo() {
+        itemsViewModel.getSingle(scannedBarcode).observe(this, item -> {
+            if (item != null) {
+                btnAction.setText("Pokaż informacje");
+                scannedItem = item;
+                txtItemName.setText(item.getName());
+
+                storagePlaceViewModel.getSingle(item.getStoragePlaceId()).observe(this, storagePlace -> {
+                    txtItemStoragePlace.setText(storagePlace.getName());
+                });
+
+                txtItemName.setVisibility(View.VISIBLE);
+                txtItemStoragePlace.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    /**
+     * Inits all barcode scanner things
+     */
     private void initialiseDetectorsAndSources() {
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
@@ -137,10 +173,11 @@ public class ScanBarcodeActivity extends AppCompatActivity {
                     txtBarcodeValue.post(new Runnable() {
                         @Override
                         public void run() {
-                                btnAction.setVisibility(View.VISIBLE);
-                                scannedBarcode = barcodes.valueAt(0).displayValue;
-                                txtBarcodeValue.setText(scannedBarcode);
-                                Log.i("BARCODE", scannedBarcode);
+                            btnAction.setVisibility(View.VISIBLE);
+                            scannedBarcode = barcodes.valueAt(0).displayValue;
+                            txtBarcodeValue.setText(scannedBarcode);
+                            showItemInfo();
+                            Log.i("BARCODE", scannedBarcode);
                         }
                     });
 

@@ -9,12 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ShowItemInfo">
-        </activity>
-        <!-- <activity -->
+        <activity android:name=".ShowItemInfo"></activity>
+
+        <activity android:name=".EditItemActivity" /> <!-- <activity -->
         <!-- android:name=".MainActivity" -->
         <!-- android:label="@string/title_activity_main2"></activity> -->
-        <activity android:name=".EditItemActivity" />
         <activity android:name=".EditStoragePlaceActivity" />
         <activity
             android:name=".ScanBarcodeActivity"
@@ -27,22 +26,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="NOTIFICATION_CHECKER_ACTION"/>
+            </intent-filter>
+        </receiver>
     </application>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

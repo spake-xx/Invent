@@ -26,7 +26,7 @@ public class EditStoragePlaceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_item);
+        setContentView(R.layout.activity_edit_storageplace);
         i = getIntent();
         storagePlaceType = (StoragePlace.Type) i.getSerializableExtra("storage_place_type");
         storagePlaceId = i.getIntExtra("storage_place_id", 0);

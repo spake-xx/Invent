@@ -25,6 +25,8 @@
     <string name="storage_place">Miejsce przechowania</string>
     <string name="barcode_scan">Skanuj kod</string>
     <string name="items_in_db">przedmiotów</string>
+    <string name="storage_places_in_db">miejsc przechowania</string>
+    <string name="expire_date">Data trwałości</string>
 
 
 </resources>

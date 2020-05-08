@@ -26,6 +26,9 @@ public interface ItemDAO {
     @Query("SELECT * FROM item WHERE barcode=:barcode")
     LiveData<Item> findByBarcode(String barcode);
 
+    @Query("SELECT * FROM item WHERE expireAt BETWEEN :start AND :end")
+    List<Item> findBetweenExpire(long start, long end);
+
     @Query("SELECT COUNT(*) FROM item")
     LiveData<Integer> getCount();
 

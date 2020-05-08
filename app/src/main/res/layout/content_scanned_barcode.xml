@@ -7,18 +7,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-    <Button
-        android:id="@+id/btnAction"
-        android:layout_width="399dp"
-        android:layout_height="92dp"
-        android:layout_alignParentBottom="true"
-        android:fontFamily="@font/roboto_bold"
-        android:text="@string/add_new_item"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <SurfaceView
         android:id="@+id/surfaceView"
         android:layout_width="0dp"
@@ -32,7 +20,31 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnAction"
+        android:layout_width="399dp"
+        android:layout_height="92dp"
+        android:layout_alignParentBottom="true"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/add_new_item"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnShowItem"
+        android:layout_width="399dp"
+        android:layout_height="92dp"
+        android:layout_alignParentBottom="true"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/add_new_item"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txtBarcodeValue"
@@ -40,11 +52,43 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="96dp"
+        android:fontFamily="@font/baloo"
         android:text="@string/barcode_not_detected"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/btnAction"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.427"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/surfaceView"
+        app:layout_constraintVertical_bias="0.11" />
+
+    <TextView
+        android:id="@+id/txtItemStoragePlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:fontFamily="@font/baloo"
+        android:text="Miejsce przechowywania"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btnAction"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/baloo"
+        android:text="Nazwa przedmiotu"
+        android:textColor="@android:color/white"
+        android:textSize="36sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/txtItemStoragePlace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

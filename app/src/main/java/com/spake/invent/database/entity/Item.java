@@ -21,27 +21,29 @@ public class Item {
     private String name;
     private String description;
     private Date createdAt;
+    private Date expireAt;
     public int storagePlaceId;
 
 
-    public Item(String barcode, String name, String description, int storagePlaceId) {
+    public Item(String barcode, String name, String description, int storagePlaceId, Date expireAt) {
         this.createdAt = new Date();;
         this.barcode = barcode;
         this.name = name;
         this.description = description;
         this.storagePlaceId = storagePlaceId;
+        this.expireAt = expireAt;
     }
 
     @Ignore
-    public Item(int id, String barcode, String name, String description, int storagePlaceId) {
+    public Item(int id, String barcode, String name, String description, int storagePlaceId, Date expireAt) {
         this.createdAt = new Date();;
         this.barcode = barcode;
         this.name = name;
         this.description = description;
         this.storagePlaceId = storagePlaceId;
         this.id = id;
+        this.expireAt = expireAt;
     }
-
 
     public int getId() {
         return id;
@@ -89,5 +91,13 @@ public class Item {
 
     public void setStoragePlaceId(int storagePlaceId) {
         this.storagePlaceId = storagePlaceId;
+    }
+
+    public Date getExpireAt() {
+        return expireAt;
+    }
+
+    public void setExpireAt(Date expireAt) {
+        this.expireAt = expireAt;
     }
 }
