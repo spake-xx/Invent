@@ -45,6 +45,12 @@ public class StoragePlaceViewModel extends AndroidViewModel {
     }
 
     /**
+     * Gets total StoragePlace count in database.
+     * @return LiveData Integer containing count of items
+     */
+    public LiveData<Integer> getCount(){ return storagePlaceDAO.getCount(); };
+
+    /**
      * Inserts new StoragePlace object into database
      * @param storagePlace
      */

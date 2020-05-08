@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.spake.invent.R;
@@ -18,9 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class StoragePlaceAdapter extends RecyclerView.Adapter<StoragePlaceAdapter.MyViewHolder> {
     Context context;
     List<StoragePlace> data;
+    StoragePlace.Type type;
 
-    public StoragePlaceAdapter(Context ct){
+    public StoragePlaceAdapter(Context ct, StoragePlace.Type type){
         context = ct;
+        this.type = type;
     }
 
     @NonNull
@@ -36,6 +39,10 @@ public class StoragePlaceAdapter extends RecyclerView.Adapter<StoragePlaceAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.myText1.setText(data.get(position).getName());
         holder.myText2.setText(data.get(position).getDescription());
+        if(type == StoragePlace.Type.LOCKER)
+            holder.imageView.setImageResource(R.drawable.ic_wardrobe_black);
+        else if(type == StoragePlace.Type.BAG)
+            holder.imageView.setImageResource(R.drawable.ic_first_aid_kit_black);
     }
 
     @Override
@@ -85,12 +92,13 @@ public class StoragePlaceAdapter extends RecyclerView.Adapter<StoragePlaceAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView myText1, myText2;
+        ImageView imageView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             myText1 = itemView.findViewById(R.id.item_name);
             myText2 = itemView.findViewById(R.id.item_description);
-
+            imageView = itemView.findViewById(R.id.imageView);
         }
     }
 }

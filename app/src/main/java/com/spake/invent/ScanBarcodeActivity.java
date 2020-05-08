@@ -66,8 +66,8 @@ public class ScanBarcodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (scannedBarcode.length() > 0) {
-                    if (bundle != null) {
-                        addNewItemActivity();
+                    if (scannedItem==null) {
+                        if(bundle!=null) addNewItemActivity();
                     } else {
                         showItemInfoActivity();
                     }
@@ -105,6 +105,7 @@ public class ScanBarcodeActivity extends AppCompatActivity {
      */
     private void showItemInfo() {
         itemsViewModel.getSingle(scannedBarcode).observe(this, item -> {
+            btnAction.setVisibility(View.VISIBLE);
             if (item != null) {
                 btnAction.setText("Pokaż informacje");
                 scannedItem = item;
@@ -116,6 +117,8 @@ public class ScanBarcodeActivity extends AppCompatActivity {
 
                 txtItemName.setVisibility(View.VISIBLE);
                 txtItemStoragePlace.setVisibility(View.VISIBLE);
+            }else if(bundle==null){
+                btnAction.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -173,7 +176,6 @@ public class ScanBarcodeActivity extends AppCompatActivity {
                     txtBarcodeValue.post(new Runnable() {
                         @Override
                         public void run() {
-                            btnAction.setVisibility(View.VISIBLE);
                             scannedBarcode = barcodes.valueAt(0).displayValue;
                             txtBarcodeValue.setText(scannedBarcode);
                             showItemInfo();

@@ -66,7 +66,7 @@ public abstract class RVFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.rv_items);
-        storagePlaceAdapter = new StoragePlaceAdapter(getActivity());
+        storagePlaceAdapter = new StoragePlaceAdapter(getActivity(), storagePlaceType);
         recyclerView.setAdapter(storagePlaceAdapter);
         storagePlaceViewModel.getAll(storagePlaceType).observe(getViewLifecycleOwner(), items -> storagePlaceAdapter.setData(items));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

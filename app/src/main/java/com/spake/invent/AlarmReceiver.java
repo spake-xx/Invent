@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.spake.invent.database.AppDatabase;
@@ -48,31 +49,43 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.i("Alarm", "Alarm has been launched");
     }
 
+    /**
+     * Fire notifications
+     * @param items List of Items to fire notification about
+     */
     void fireNotifications(List<Item> items){
         for(Item i:items){
-            Log.i("Item", "Runned "+i.getExpireAt().toString());
-            showNotification("Przypomnienie o kończącej dacie trwałości", "Data trwałości "+i.getName()+" kończy się za niedługo!");
+            showNotification("Przypomnienie o kończącej dacie trwałości", "Data trwałości "+i.getName()+" kończy się za niedługo!", i);
         }
     }
 
-    void showNotification(String title, String message) {
+    /**
+     * Shows notification to user
+     * @param title notification title
+     * @param message notification text
+     * @param item Item object
+     */
+    void showNotification(String title, String message, Item item) {
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("YOUR_CHANNEL_ID",
-                    "YOUR_CHANNEL_NAME",
+            NotificationChannel channel = new NotificationChannel("item_notifications",
+                    "Expire notifications",
                     NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription("YOUR_NOTIFICATION_CHANNEL_DESCRIPTION");
+            channel.setDescription("Notifications about item expire date.");
             mNotificationManager.createNotificationChannel(channel);
         }
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "YOUR_CHANNEL_ID")
-                .setSmallIcon(R.mipmap.ic_launcher) // notification icon
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "item_notifications")
+                .setSmallIcon(R.drawable.ic_notifications_black_24dp) // notification icon
                 .setContentTitle(title) // title for notification
                 .setContentText(message)// message for notification
                 .setAutoCancel(true); // clear notification after click
         Intent intent = new Intent(context, ShowItemInfo.class);
+        Bundle b = new Bundle();
+        b.putInt("item_id", item.getId());
+        intent.putExtras(b);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(pi);
-        mNotificationManager.notify(0, mBuilder.build());
+        mNotificationManager.notify(item.getId(), mBuilder.build());
     }
 }

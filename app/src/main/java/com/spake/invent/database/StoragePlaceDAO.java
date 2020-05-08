@@ -24,6 +24,9 @@ public interface StoragePlaceDAO {
     @Query("SELECT * FROM storage_place WHERE type=:type")
     LiveData<List<StoragePlace>> findStoragePlaceByType(final int type);
 
+    @Query("SELECT COUNT(*) FROM storage_place")
+    LiveData<Integer> getCount();
+
     @Insert
     void insertStoragePlace(StoragePlace storagePlace);
 
