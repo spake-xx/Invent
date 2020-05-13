@@ -84,6 +84,10 @@ public class SummaryFragment extends Fragment {
             txtStoragePlaceCount.setText(count.toString());
         });
     }
+
+    /**
+     * Sets notification alarm
+     */
     private void setNotificationAlarm(){
 //        final int interval = 24 * 60 * 60 * 1000;
         final int interval = 60000;
@@ -94,6 +98,9 @@ public class SummaryFragment extends Fragment {
         Log.i("Alarm", "Started alarm "+1001);
     }
 
+    /**
+     * Cancels notifications alarm
+     */
     private void cancelNotificationAlarm() {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getContext(), 1001, notificationActionIntent,0);

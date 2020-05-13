@@ -38,7 +38,6 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation "androidx.room:room-runtime:$room_version"
-    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     annotationProcessor "androidx.room:room-compiler:$room_version"
